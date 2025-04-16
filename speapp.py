@@ -193,68 +193,71 @@ performance_metrics_full = {
     "Tg": "Glass Transition Temperature (K)",
     "Td": "Thermal Decomposition Temperature (K)"
 }
-
-# 性能指标列表
 performance_metrics = list(performance_metrics_full.keys())
 
-# 选择 X 轴
+COLOR_DISCRETE_MAP = {"<0.5": "#FF5252", ">0.5": "#4CAF50"}
+CUSTOM_DATA_COLS = ["Sample ID", "t+ class"]
+HOVER_TEMPLATE = """
+<b>Sample ID:</b> %{{customdata[0]}}<br>
+<b>X ({x_label}):</b> %{{x}}<br>
+<b>Y ({y_label}):</b> %{{y}}<br>
+<b>Li<sup>+</sup> transference number:</b> %{{customdata[1]}}
+"""
+
+# 创建并排布局
 col1, col2 = st.columns(2)
+
 with col1:
+    # X 轴选择器
     x_axis = st.selectbox(
-        "Select X Axis for Scatter Plot",
+        "Select X Axis for Scatter Plot:",
         options=performance_metrics,
-        format_func=lambda x: performance_metrics_full[x],  # 显示全称
-        key="x_axis_selectbox"  # 唯一 key
+        format_func=lambda x: performance_metrics_full[x],
+        key="x_axis_selectbox"
     )
 
-# 选择 Y 轴
 with col2:
+    # Y 轴选择器（动态排除已选X轴）
     y_axis = st.selectbox(
-        "Select Y Axis for Scatter Plot",
-        options=[metric for metric in performance_metrics if metric != x_axis],  # 只保留可选项
-        format_func=lambda x: performance_metrics_full[x],  # 仍然显示全称
+        "Select Y Axis for Scatter Plot:",
+        options=[m for m in performance_metrics if m != x_axis],
+        format_func=lambda x: performance_metrics_full[x],
         key="y_axis_selectbox"
     )
-
-# 绘制散点图
-#st.write(filtered_df.columns)
-if not filtered_df.empty:
-    # 添加 Sample ID 到 customdata
-    custom_data_cols = ["Sample ID", "t+ class"]
+# 数据验证和可视化
+if filtered_df.empty:
+    st.warning("⚠️ No data available for visualization with current filters")
+else:
+    # 创建交互式散点图
     fig = px.scatter(
         filtered_df,
         x=x_axis,
         y=y_axis,
         color="t+ class",
-        color_discrete_map={"<0.5": "#FF5252", ">0.5": "#4CAF50"},
-        labels=performance_metrics_full,  # 使用全称作为轴标签
-        custom_data=filtered_df.loc[:, custom_data_cols],  # 传递 Sample ID 和 t+ class
-        hover_name="Sample ID"  # 悬停时显示 Sample ID
+        color_discrete_map=COLOR_DISCRETE_MAP,
+        labels=performance_metrics_full,
+        custom_data=CUSTOM_DATA_COLS,
+        # hover_name="Sample ID"
+    )
+
+    # 配置悬停信息
+    fig.update_traces(
+        hovertemplate=HOVER_TEMPLATE.format(
+            x_label=performance_metrics_full[x_axis],
+            y_label=performance_metrics_full[y_axis]
+        )
     )
     
-    # 自定义悬停卡片内容
-    fig.update_traces(
-                        hovertemplate=(
-                            "<b>Sample ID:</b> %{customdata[0]}<br>"
-                            f"<b>X ({performance_metrics_full[x_axis]}):</b> %{{x}}<br>"
-                            f"<b>Y ({performance_metrics_full[y_axis]}):</b> %{{y}}<br>"
-                            "<b>Lithium ion transference number:</b> %{customdata[1]}<br>"
-                                      ),
-                        
-                     )
-    
+    # 优化图表布局
     fig.update_layout(
         hovermode="closest",
         plot_bgcolor="rgba(245,245,245,1)",
-        legend=dict(title="Lithium ion transference number", orientation="h", yanchor="bottom", y=1.02)
+        legend=dict(
+            title="Li<sup>+</sup> transference number",
+            orientation="h",
+            yanchor="bottom",
+            y=1.05
+        )
     )
-
-    # 获取点击事件
-    selected_points = plotly_events(fig, click_event=True, select_event=True, override_height=600)
     
-    if selected_points:
-        point_idx = selected_points[0]["pointIndex"]
-        custom_data_array = fig.data[0]["customdata"]
-        selected_sample_id = custom_data_array[point_idx][0]  # 取出 Sample ID
-        st.session_state.selected_index = selected_sample_id
-        st.rerun()  # 强制页面重新渲染
+    st.plotly_chart(fig)
