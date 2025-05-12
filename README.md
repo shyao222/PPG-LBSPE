@@ -50,7 +50,7 @@ streamlit run speapp.py
 ```
 
 ## Hosted Version
-For a quick demo, you can also access the hosted version of ChemPredictor at https://ppg-lbspe.streamlit.app/
+For a quick demo, you can also access the hosted version of PPG-LBSPE at https://ppg-lbspe.streamlit.app/
 
 
 ## Dependencies
