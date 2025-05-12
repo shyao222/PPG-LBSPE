@@ -1,19 +1,19 @@
 # PPG-LBSPE: A Streamlit App for Polymer Electrolyte Discovery
 
-**PPG-LBSPE**(Polymers Prediction and Generation for Lithium Battery Solid Polymer Electrolyte) is a Streamlit-based web application for **Polymer Generation, Property Prediction, and Data Visualization** aimed at accelerating the discovery of high-performance solid polymer electrolytes (SPEs) for lithium batteries.
+**PPG-LBSPE** (Polymers Prediction and Generation for Lithium Battery Solid Polymer Electrolyte) is a Streamlit-based web application for **Polymer Generation, Property Prediction, and Data Visualization** aimed at accelerating the discovery of high-performance solid polymer electrolytes (SPEs) for lithium batteries.
 
-## 🔍 Project Overview
+## Project Overview
 
 Solid polymer electrolytes offer safety and flexibility over liquid electrolytes but are hard to design due to complex structure–property relationships. This tool integrates predictive and generative machine learning models to streamline the design of novel polymer candidates.
 
-## 🧩 Key Features
+## Key Features
 
-### 1. 🔬 Polymer Generation (Generate)
+### 1. Polymer Generation (Generate)
 - Generate 1–100 polymer candidates using a pretrained generative model.
 - Display valid SMILES in a table with molecular structure previews.
 - Download generated molecules in CSV format.
 
-### 2. 📈 Property Prediction (Predict)
+### 2. Property Prediction (Predict)
 - Input SMILES via text box, CSV upload, or molecular sketcher.
 - Predict 4 SPE-relevant properties:
   - **Log ionic conductivity** (σ, log S/cm)
@@ -22,13 +22,13 @@ Solid polymer electrolytes offer safety and flexibility over liquid electrolytes
   - **Li⁺ transference number** (t⁺ classification: <0.5 or >0.5)
 - Visual results with structure images and metrics.
 
-### 3. 📊 Data Visualization (Visualize)
+### 3. Data Visualization (Visualize)
 - Explore 26,000+ pre-generated polymers.
 - Filter samples by conductivity, T<sub>g</sub>, T<sub>d</sub>, or t⁺.
 - Search by Sample ID or SMILES substring.
 - Interactive scatter plots to investigate structure–property relationships.
 
-## 🛠️ Installation
+## Installation
 
 ### 1. Clone this repository
 
@@ -49,14 +49,18 @@ pip install -r requirements.txt
 streamlit run speapp.py
 ```
 
-## 📚 Dependencies
+## Hosted Version
+For a quick demo, you can also access the hosted version of ChemPredictor at https://ppg-lbspe.streamlit.app/
+
+
+## Dependencies
 
 * **Frontend:** Streamlit
 * **Data Handling:** Pandas, NumPy
 * **Chemical Descriptors:** RDKit, Mordred
 * **Modeling:** Scikit-learn, XGBoost, PyTorch
 
-## 🔗 References
+## References
 
 * **Generative Model:** [OpenReview Paper](https://openreview.net/forum?id=l4IHywGq6a)
 * **Predictive Model Datasets:**
@@ -65,7 +69,7 @@ streamlit run speapp.py
   * [https://polymer.nims.go.jp/](https://polymer.nims.go.jp/)
 * **Frontend Template:** [ChemPredictor](https://github.com/CubeStar1/ChemPredictor)
 
-## 📬 Contact
+## Contact
 
 If you have any questions or need more information, feel free to contact:
 
