@@ -1,0 +1,9 @@
+libcairo2
+libpango-1.0-0
+libpangocairo-1.0-0
+libxcb1
+libgl1
+libxrender1
+libxext6
+libgl1-mesa-glx
+libfontconfig1
