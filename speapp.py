@@ -49,7 +49,7 @@ with st.sidebar:
     # LOGO
     with st.container(border=True):
         #st.markdown('<h2 style="text-align: center;font-size: 1.5em;">SPE Prediction & Gerneration</h2>', unsafe_allow_html=True)
-        st.image('utilities\logo\PPG-SPE.png')
+        st.image('utilities/logo/PPG-SPE.png')
 
     # with st.expander("Property Selection", expanded=False):
     #     property_selection = sac.chip(items=[
