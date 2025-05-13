@@ -45,14 +45,14 @@ def project_overview():
                     - Molecule sketching using the embedded editor
                 - Predict the following SPE properties:
                     - Log ionic conductivity (σ, log S/cm)
-                    - Glass transition temperature (T<sub>g</sub>, °C)
-                    - Thermal decomposition temperature (T<sub>d</sub>, °C)
-                    - Li⁺ transference number (t⁺, classification, <0.5/>0.5)
+                    - Glass transition temperature ($T_g$, °C)
+                    - Thermal decomposition temperature ($T_d$, °C)
+                    - Li$^+$ transference number ($t^+$, classification, <0.5 or >0.5)
                 - Results are presented with structure images and metric cards
 
                 ### 3.3. Data Visualization(Visualize)
                 - Load and explore a dataset of 26,227 pre-generated polymers
-                - Filter samples by value ranges for conductivity, T<sub>g</sub>, T<sub>d</sub>, or t⁺ class
+                - Filter samples by value ranges for conductivity, $T_g$, $T_d$, or $t^+$ class
                 - Search by Sample ID or SMILES substring
                 - View interactive scatter plots of any two properties
                     - Click on any point to view detailed structure and property values
@@ -60,7 +60,7 @@ def project_overview():
                 """)
     
     st.markdown("""
-                ## 4. Dependencies
+                ## 4. Requirements
                 - **Data Analysis:** Pandas, NumPy
                 - **Data Preparation:** RDKit, Mordred Molecular Descriptors
                 - **Machine Learning:** Scikit-learn, XGBoost, PyTorch
