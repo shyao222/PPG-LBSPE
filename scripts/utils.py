@@ -11,7 +11,7 @@ import numpy as np
 import streamlit as st
 
 # Chemistry Libraries
-from chembl_webresource_client.new_client import new_client as ch
+#from chembl_webresource_client.new_client import new_client as ch
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Draw
