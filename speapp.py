@@ -132,7 +132,15 @@ with st.sidebar:
 
 
 # ===== 主界面 =====
-st.title("Polymers Prediction and Generation for Lithium Battery Solid Ploymer Electrolyte (PPG-LBSPE)")
+st.markdown("""
+<style>
+h1 {
+    font-size: 26px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+st.title("Prediction and Generation of Polymer Electrolytes for Solid-State Lithium Batteries")
+st.divider()
 
 def Generate():
     with st.expander("How to Make Generations", expanded=True):
@@ -197,7 +205,7 @@ def Generate():
             for i, smi in enumerate(df_generated['SMILES'].head(display_n), start=1):
                 mol = Chem.MolFromSmiles(smi)
                 if mol:
-                    img = Draw.MolToImage(mol, size=(300,300))
+                    img = Draw.MolToImage(mol, size=(300,300), fitImage=True)
                     images.append(img)
                     captions.append(f"{i-1}: {smi}")
             if images:
@@ -559,12 +567,12 @@ def page_selection():
         sac.SegmentedItem(label='Generate'),
         sac.SegmentedItem(label='Predict'),
         sac.SegmentedItem(label='Visualize'),
-        sac.SegmentedItem(label='Project Overview')],
+        sac.SegmentedItem(label='About')],
             format_func='title',
             align='center', 
             use_container_width=True)
 
-    if selected == "Project Overview":
+    if selected == "About":
         project_overview_page.project_overview()
     if selected == "Predict":
         Predict()

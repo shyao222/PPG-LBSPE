@@ -53,12 +53,12 @@ streamlit run speapp.py
 For a quick demo, you can also access the hosted version of PPG-LBSPE at https://ppg-lbspe.streamlit.app/
 
 
-## Dependencies
+## Requirements
 
-* **Frontend:** Streamlit
-* **Data Handling:** Pandas, NumPy
-* **Chemical Descriptors:** RDKit, Mordred
-* **Modeling:** Scikit-learn, XGBoost, PyTorch
+* **Frontend:** Streamlit==1.41.1
+* **Data Handling:** Pandas==2.0.3, NumPy==1.24.3
+* **Chemical Descriptors:** RDKit==2023.09.4, Mordred==1.2.0
+* **Modeling:** Scikit-learn==1.3.0, XGBoost==2.0.3, PyTorch==2.1.2+cpu
 
 ## References
 

@@ -1,6 +1,6 @@
 import streamlit as st
 def project_overview():
-    st.title("Project Overview")
+    st.title("Overview")
     st.markdown(""" 
     Welcome to PPG-LBSPE, a Streamlit-based web application for Generation, Prediction, and
     Visualization of polymer candidates for lithium battery solid polymer electrolytes (SPEs). This 
@@ -10,7 +10,7 @@ def project_overview():
     st.markdown("---")
 
     st.markdown(""" 
-    ##  1.Background & Motivation
+    ##  1.Background
     Solid polymer electrolytes (SPEs) are key materials for next-generation lithium batteries, offering 
     enhanced safety and mechanical flexibility compared to liquid electrolytes. However, identifying
     polymers with high ionic conductivity, thermal stability, and lithium-ion transference number
