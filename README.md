@@ -2,6 +2,11 @@
 
 **PPG-LBSPE** (Polymers Prediction and Generation for Lithium Battery Solid Polymer Electrolyte) is a Streamlit-based web application for **Polymer Generation, Property Prediction, and Data Visualization** aimed at accelerating the discovery of high-performance solid polymer electrolytes (SPEs) for lithium batteries.
 
+
+## Hosted Version
+For a quick demo, you can access the hosted version of PPG-LBSPE at https://ppg-lbspe.streamlit.app/
+
+
 ## Project Overview
 
 Solid polymer electrolytes offer safety and flexibility over liquid electrolytes but are hard to design due to complex structure–property relationships. This tool integrates predictive and generative machine learning models to streamline the design of novel polymer candidates.
@@ -49,16 +54,6 @@ pip install -r requirements.txt
 streamlit run speapp.py
 ```
 
-## Hosted Version
-For a quick demo, you can also access the hosted version of PPG-LBSPE at https://ppg-lbspe.streamlit.app/
-
-
-## Requirements
-
-* **Frontend:** Streamlit==1.41.1
-* **Data Handling:** Pandas==2.0.3, NumPy==1.24.3
-* **Chemical Descriptors:** RDKit==2023.09.4, Mordred==1.2.0
-* **Modeling:** Scikit-learn==1.3.0, XGBoost==2.0.3, PyTorch==2.1.2+cpu
 
 ## References
 

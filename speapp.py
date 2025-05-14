@@ -79,10 +79,10 @@ with st.sidebar:
     
     #Filter Samples for Visualization
     with st.expander("Filter Samples for Visualization", expanded=True):
-        # 初始化 session_state
+        # Initialize session_state
         if "filtered_df" not in st.session_state:
             st.session_state.filtered_df = pd.DataFrame()
-        # 连续变量筛选
+        # Continuous Variable Selection
         filters = {
             "Log Conductivity": st.slider(
                 "Log Conductivity (log S/cm)",
@@ -103,13 +103,13 @@ with st.sidebar:
                 (float(df_gp["Td"].min()), float(df_gp["Td"].max()))
             )}
 
-        # 类别变量筛选（复选框）
+        # Categorical Variable Filtering（checkbox）
         st.markdown("Li⁺ transference number")
         col1, col2 = st.columns(2)
         with col1:
             select_less = st.checkbox("<0.5", value=True)
         with col2:
-            #用 “>” 不会显示，将 > 替换为 HTML 实体 &gt;
+            # When the ">" symbol fails to display properly, replace it with HTML entity &gt;
             select_greater = st.checkbox("&gt;0.5", value=True) 
 
         t_class_selected = []
@@ -118,20 +118,32 @@ with st.sidebar:
         if select_greater:
             t_class_selected.append(">0.5")
         
-        # 如果 t_class_selected 为空（两个复选框都未选中），直接返回空的 DataFrame
+        # If t_class_selected is empty (meaning neither checkbox is selected)
+        # return an empty DataFrame directly.
         if not t_class_selected:
             filtered_df = pd.DataFrame(columns=df_gp.columns)
         else:
-            # 应用筛选条件
+            # Apply filter conditions
             filter_conditions = ((df_gp["Log Conductivity"].between(*filters["Log Conductivity"])) &
                                 (df_gp["Tg"].between(*filters["Tg"])) &
                                 (df_gp["Td"].between(*filters["Td"])) &
                                 (df_gp["t+ class"].isin(t_class_selected)))
             filtered_df = df_gp[filter_conditions]
         st.session_state.filtered_df = filtered_df
+    st.divider()
+    st.markdown(
+    """
+    <div style='font-size: 12px; color: gray;'>
+    Copyright © 2009–2025 Changchun Institute of Applied Chemistry, Chinese Academy of Sciences<br>
+    Address: 5625 Renmin Street, Changchun, Jilin Province, China 130022<br>
+    Tel: 86-0431-85687300<br>
+    ICP License: Ji ICP No. 12000082
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
 
-
-# ===== 主界面 =====
+# ===== Main Interface =====
 st.markdown("""
 <style>
 h1 {
@@ -147,12 +159,12 @@ def Generate():
         st.info("1. Use the slider or text box below to specify how many polymers to generate")
         st.info("2. Click the 'Start Generation' button")
     
-    # 初始化 session state
+    # Initialize session state
     if 'gen_num' not in st.session_state:
         st.session_state.gen_num = 1
     if 'text' not in st.session_state:
         st.session_state.text = str(st.session_state.gen_num)
-    # 文本输入回调函数
+    # Text Input Callback Function
     def update_from_text():
         try:
             val = int(st.session_state.text)
@@ -165,10 +177,9 @@ def Generate():
             st.error("Please enter a valid integer")
             st.session_state.text = str(st.session_state.gen_num)
 
-    # 滑块更新同步文本
+    # Slider Update Synchronizes Text
     def update_from_slider():
         st.session_state.text = str(st.session_state.gen_num)
-    # 创建两列布局
     col1, col2 = st.columns([1, 1])
     with col1:
         st.slider(
@@ -191,9 +202,8 @@ def Generate():
         if df_generated.empty:
             st.warning("No valid polymers were generated. Please try again or adjust your settings.")
             return
-        # 确定展示数量
+        # Set Display Count
         display_n = min(len(df_generated), 10)
-        # 两列布局
         col_table, col_struct = st.columns([2,1])
         with col_table:
             st.write(f"Displaying {display_n} of {st.session_state.gen_num} generated molecules:")
@@ -236,7 +246,7 @@ def Predict():
                     os.remove(f)
                 smiles_list = smiles_input.split(",")
                 output_df = prediction_dataframe(smiles_list)
-                #将每个元素的array转换为数值
+                # Convert each element in the array to a numerical value
                 for column in output_df.columns:
                     try:
                         output_df[column] = output_df[column].apply(lambda x: x[0]).astype(float)
@@ -319,7 +329,7 @@ def Predict():
             if prediction2:
                 with st.spinner("Predicting..."):
                     output_df = prediction_dataframe(moleculesList)
-                    #将每个元素的array转换为数值
+                    # Convert each element in the array to a numerical value
                     for column in output_df.columns:
                         try:
                             output_df[column] = output_df[column].apply(lambda x: x[0]).astype(float)
@@ -371,15 +381,14 @@ def Visualize():
     filtered_df = st.session_state.filtered_df
     if filtered_df.empty:
         st.warning("No data found.")
-    # 初始化session state
+    # Initialize session state
     if 'selected_index' not in st.session_state:
         st.session_state.selected_index = None
     
     st.info('These 26,227 samples were pre-generated using the generative model and can be used for polymer screening, structural analysis and performance visualization. You can use the \'Filter Samples for Visualization\' box in the sidebar to filter the samples.')
-    # 创建两列布局
     col_table, col_struct = st.columns([5, 2])
     with col_table:
-        # 搜索栏（带功能按钮）
+        # Search Bar (with Function Buttons)
         st.markdown("""
                     <style>
                         div[data-testid="column"] {
@@ -397,7 +406,7 @@ def Visualize():
                         }
                     </style>
                     """, unsafe_allow_html=True)
-        cols = st.columns([5, 1])  # 调整列宽比例
+        cols = st.columns([5, 1])
         with cols[0]:
             search_input = st.text_input("Search",
                                         value=st.session_state.get("search_term", ""),
@@ -405,29 +414,29 @@ def Visualize():
                                         label_visibility="collapsed")
         with cols[1]:
             search_clicked = st.button("🔍 Search", use_container_width=True)
-        # 处理搜索逻辑
+        # Process Search Logic
         if search_clicked or (search_input and search_input != st.session_state.get("prev_search", "")):
             st.session_state.search_term = search_input
             st.session_state.prev_search = search_input
             st.rerun()
-        # 应用搜索条件
+        # apply search condition
         if "search_term" in st.session_state and st.session_state.search_term:
             search_term = st.session_state.search_term
             try:
-                # 尝试精确匹配 Sample ID
+                # Perform exact matching on Sample ID
                 sample_id = int(search_term)
                 search_condition = (filtered_df["Sample ID"] == sample_id)
             except ValueError:
-                # 模糊匹配 SMILES
+                # Fuzzy Matching SMILES
                 search_condition = (filtered_df["SMILES"].str.contains(search_term, case=False, regex=False, na=False))
             filtered_df = filtered_df[search_condition]
         
-        # 数据展示（使用AgGrid）
-        # 如果 filtered_df 为空，创建一个空的 DataFrame，列名与原始数据一致
+        # Data Display (using AgGrid)
+        # If filtered_df is empty, create an empty DataFrame with columns matching the original data
         if filtered_df.empty:
                 filtered_df = pd.DataFrame(columns=df_gp.columns)
         
-        # 更新 Grid
+        # update Grid
         gb = GridOptionsBuilder.from_dataframe(filtered_df)
         gb.configure_column("Sample ID", width=75)
         gb.configure_column("SMILES", width=250)
@@ -439,7 +448,7 @@ def Visualize():
         gb.configure_selection('single', use_checkbox=False)
         grid_options = gb.build()
 
-        # 显示表格
+        # Display Table
         grid_response = AgGrid(filtered_df,
                             gridOptions=grid_options,
                             height=500,
@@ -450,24 +459,24 @@ def Visualize():
         st.markdown(f'<p style="text-align:right; color:#808080; font-size:0.9em;">{len(filtered_df)} samples shown</p>', 
                     unsafe_allow_html=True)
         
-        # 获取选中行
+        # Get Selected Rows
         selected_rows = pd.DataFrame(grid_response['selected_rows'])
-        if not selected_rows.empty:  # 正确判断是否为空
+        if not selected_rows.empty:  # Correctly Determine if Empty
             st.session_state.selected_index = selected_rows.iloc[0]['Sample ID']
 
         
-    # 分子结构展示
+    # Molecular Structure Visualization
     with col_struct:
         selected_sample_id = st.session_state.get('selected_index', None)
         if selected_sample_id is not None:
-            # 检查 selected_sample_id 是否在原始数据中
+            # Check if selected_sample_id Exists in Original Data
             if selected_sample_id not in df_gp["Sample ID"].values:
                 st.warning(f"Sample ID {selected_sample_id} not found in original data.")
             else:
-                # 获取选中行的数据
+                # Get Selected Rows
                 selected_row = df_gp[df_gp["Sample ID"] == selected_sample_id].iloc[0]
                 smiles = selected_row['SMILES']
-                # 绘制分子结构
+                # Generate Molecular Structure
                 mol = Chem.MolFromSmiles(smiles)
                 if mol:
                     img = Draw.MolToImage(mol, size=(400, 300))
@@ -482,7 +491,7 @@ def Visualize():
         else:
             st.info("Select a sample to view structure.")
 
-    # 性能指标全称映射
+    # Performance Metrics Full Name Mapping
     performance_metrics_full = {
         "Log Conductivity": "Log Conductivity (log S/cm)",
         "Tg": "Glass Transition Temperature (°C)",
@@ -499,31 +508,24 @@ def Visualize():
     <b>Li<sup>+</sup> transference number:</b> %{{customdata[1]}}
     """
 
-    # 创建并排布局
     col1, col2 = st.columns(2)
-
     with col1:
-        # X 轴选择器
         x_axis = st.selectbox(
             "Select X Axis for Scatter Plot:",
             options=performance_metrics,
             format_func=lambda x: performance_metrics_full[x],
             key="x_axis_selectbox"
         )
-
     with col2:
-        # Y 轴选择器（动态排除已选X轴）
         y_axis = st.selectbox(
             "Select Y Axis for Scatter Plot:",
             options=[m for m in performance_metrics if m != x_axis],
             format_func=lambda x: performance_metrics_full[x],
             key="y_axis_selectbox"
         )
-    # 数据验证和可视化
     if filtered_df.empty:
         st.warning("⚠️ No data available for visualization with current filters")
     else:
-        # 创建交互式散点图
         fig = px.scatter(
             filtered_df,
             x=x_axis,
@@ -534,16 +536,13 @@ def Visualize():
             custom_data=CUSTOM_DATA_COLS,
             # hover_name="Sample ID"
         )
-
-        # 配置悬停信息
+        # Configure Hover Information
         fig.update_traces(
             hovertemplate=HOVER_TEMPLATE.format(
                 x_label=performance_metrics_full[x_axis],
                 y_label=performance_metrics_full[y_axis]
             )
         )
-        
-        # 优化图表布局
         fig.update_layout(
             hovermode="closest",
             plot_bgcolor="rgba(245,245,245,1)",

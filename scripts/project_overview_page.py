@@ -58,17 +58,10 @@ def project_overview():
                     - Click on any point to view detailed structure and property values
                     - Color-coded by transference number class
                 """)
-    
-    st.markdown("""
-                ## 4. Requirements
-                - **Data Analysis:** Pandas, NumPy
-                - **Data Preparation:** RDKit, Mordred Molecular Descriptors
-                - **Machine Learning:** Scikit-learn, XGBoost, PyTorch
-                - **Frontend:** Streamlit
-                """)
+
 
     st.markdown("""
-                ## 5. Reference
+                ## 4. Reference
                 - **Generative Model:** https://openreview.net/forum?id=l4IHywGq6a
                 - **Predictive Models Data:**
                     - https://pubs.acs.org/doi/10.1021/acscentsci.2c01123
@@ -77,8 +70,7 @@ def project_overview():
                 """)
     
     st.markdown("""
-
-                ## 6. Contact
+                ## 5. Contact
                 If you have any questions or need more information, feel free to contact:
                 - **Email:** ysh222@ciac.ac.cn, lyliu@ciac.ac.cn, hfli@ciac.ac.cn
                 - **Github:** https://github.com/shyao222/PPG-LBSPE
